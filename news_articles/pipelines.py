@@ -7,7 +7,11 @@
 
 import pymongo
 
-class NewsArticlesPipeline(object):
+class DefaultPipeline(object):
+    def process_item(self, item, spider):
+        return item
+
+class MongoDBPipeline(object):
     collection_name = 'news_articles'
 
     def __init__(self, mongo_uri, mongo_db):
