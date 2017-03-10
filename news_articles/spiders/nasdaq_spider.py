@@ -4,11 +4,12 @@ import datetime
 
 """nasdaq_spider.py
 
-run with: scrapy runspider nasdaq_spider.py -o nasdaq.jl"""
+run with: scrapy runspider nasdaq_spider.py -o nasdaq.jl
+            scrapy crawl nasdaq -o quotes.json"""
 
 
 class NasdaqSpider(scrapy.Spider):
-    name = "nasdaq google news headlines"
+    name = "nasdaq"
     start_urls = [
         'http://www.nasdaq.com/symbol/goog/news-headlines',
     ]

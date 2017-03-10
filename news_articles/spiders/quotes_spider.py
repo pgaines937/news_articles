@@ -1,5 +1,6 @@
 import scrapy
-"""scrapy runspider quotes_spider.py -o quotes.json"""
+"""scrapy runspider quotes_spider.py -o quotes.jl
+   scrapy crawl quotes -o quotes.json"""
 
 
 class QuotesSpider(scrapy.Spider):
