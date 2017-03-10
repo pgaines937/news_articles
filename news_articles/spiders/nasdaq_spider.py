@@ -5,7 +5,7 @@ import datetime
 """nasdaq_spider.py
 
 run with: scrapy runspider nasdaq_spider.py -o nasdaq.jl
-            scrapy crawl nasdaq -o quotes.json"""
+            scrapy crawl nasdaq -o nasdaq.json"""
 
 
 class NasdaqSpider(scrapy.Spider):
