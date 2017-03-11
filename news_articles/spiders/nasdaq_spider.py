@@ -19,7 +19,7 @@ class NasdaqSpider(scrapy.Spider):
             yield {
                 'headline': news_headline.xpath('div/span/a/text()').extract(),
                 'url': news_headline.xpath('div/span/a/@href').extract(),
-                'timestamp': news_headline.xpath('div/small/text()').extract()
+                'timestamp': news_headline.xpath('normalize-space(div/small/text())').extract()
             }
 
         next_page = response.css('li.quotes_content_left_lb_NextPage a::attr("href")').extract_first()
