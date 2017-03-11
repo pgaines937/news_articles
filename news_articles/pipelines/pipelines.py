@@ -10,3 +10,5 @@ import pymongo
 class DefaultPipeline(object):
     def process_item(self, item, spider):
         return item
+
+
