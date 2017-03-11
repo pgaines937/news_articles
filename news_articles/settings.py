@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = True
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     #'scrapy_mongodb.MongoDBPipeline': 300,
-    'news_articles.pipelines.MongoDBPipeline': 300
+    'news_articles.pipelines.mongodb.MongoDBPipeline': 300
 }
 
 MONGODB_URI = 'mongodb://localhost:27017'
