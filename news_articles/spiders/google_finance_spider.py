@@ -15,11 +15,11 @@ run with: scrapy runspider google_finance_spider.py -o google_finance.jl
 class GoogleFinanceSpider(CrawlSpider):
     name = "google_finance"
     start_urls = [
-        'https://www.google.com/finance/company_news?q=NASDAQ:GOOG&ei=Xo_FWLm0IM7U2AbT8pvQDQ',
+        'https://www.google.com/finance/company_news?q=NASDAQ%3AGOOG&startdate=2017-1-01&enddate=2017-2-01&ei=-8zFWLnSFoe62Aam_4XoCQ',
     ]
 
     rules = (
-        Rule(LinkExtractor(allow=(), restrict_xpaths=('//td[@class="nav_b"]',)), callback="parse", follow=True),
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('.//td[@class="nav_b"]',)), callback="parse", follow=True),
     )
 
     def parse(self, response):
