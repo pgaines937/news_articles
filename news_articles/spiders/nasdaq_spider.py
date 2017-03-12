@@ -1,6 +1,7 @@
 import scrapy
 
-from scrapy.contrib.loader import XPathItemLoader
+from scrapy.contrib.loader import ItemLoader
+
 from news_articles.items import NewsArticle
 
 """nasdaq_spider.py
@@ -17,7 +18,7 @@ class NasdaqSpider(scrapy.Spider):
 
     def parse(self, response):
         items = []
-        l = XPathItemLoader(item=NewsArticle(), response=response)
+        l = ItemLoader(item=NewsArticle(), response=response)
         l.add_css('news-headlines')
         l.add_xpath('headline', 'div/span/a/text()')
         l.add_xpath('url', 'div/span/a/@href')
