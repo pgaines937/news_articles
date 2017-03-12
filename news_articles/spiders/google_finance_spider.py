@@ -22,7 +22,7 @@ class GoogleFinanceSpider(scrapy.Spider):
                 'date': news_headline.css('span.date').xpath('text()').extract()
             }
 
-        next_page = response.css('li.quotes_content_left_lb_NextPage a::attr("href")').extract_first()
+        next_page = response.css('td.nav_b a::attr("href")').extract_first()
         if next_page is not None:
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
