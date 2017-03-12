@@ -17,11 +17,11 @@ class NasdaqSpider(scrapy.Spider):
     def parse(self, response):
         for news_headline in response.css('div.news-headlines'):
             yield {
-                'headline': news_headline.xpath('div.news-headlines/div/span/a/text()').extract(),
-                'url': news_headline.xpath('div.news-headlines/div/span/a/@href').extract(),
-                'timestamp': news_headline.xpath('div.news-headlines/div/small/text()').extract()
+                'headline': news_headline.css('div.news-headlines').xpath('div/span/a/text()').extract(),
+                'url': news_headline.css('div.news-headlines').xpath('div/span/a/@href').extract(),
+                'timestamp': news_headline.css('div.news-headlines').xpath('div/small/text()').extract()
             }
-
+        # normalize-space()
         next_page = response.css('li.quotes_content_left_lb_NextPage a::attr("href")').extract_first()
         if next_page is not None:
             next_page = response.urljoin(next_page)
