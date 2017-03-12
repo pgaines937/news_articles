@@ -19,7 +19,7 @@ class GoogleFinanceSpider(CrawlSpider):
     ]
 
     rules = (
-        Rule(LinkExtractor(allow=(), restrict_css=('td.nav_b',)), callback="parse", follow=True),
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('//td[@class="nav_b"]',)), callback="parse", follow=True),
     )
 
     def parse(self, response):
