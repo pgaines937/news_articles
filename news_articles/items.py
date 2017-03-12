@@ -8,7 +8,7 @@
 import scrapy
 
 
-class NewsArticlesItem(scrapy.Item):
+class NewsArticle(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     headline = scrapy.Field()

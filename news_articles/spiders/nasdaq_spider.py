@@ -1,6 +1,12 @@
 import scrapy
+from scrapy.loader.processors import MapCompose, Join
+from scrapy.spider import BaseSpider
+from scrapy.contrib.loader import XPathItemLoader
+from scrapy.utils.markup import replace_escape_chars
 import time
 import datetime
+
+from news_articles.items import NewsArticle
 
 """nasdaq_spider.py
 
@@ -8,21 +14,20 @@ run with: scrapy runspider nasdaq_spider.py -o nasdaq.jl
             scrapy crawl nasdaq -o nasdaq.json"""
 
 
-class NasdaqSpider(scrapy.Spider):
+class NasdaqSpider(BaseSpider):
     name = "nasdaq"
     start_urls = [
         'http://www.nasdaq.com/symbol/goog/news-headlines',
     ]
 
     def parse(self, response):
-        for news_headline in response.css('div.news-headlines'):
-            yield {
-                'headline': news_headline.xpath('div/span/a/text()').extract(),
-                'url': news_headline.xpath('div/span/a/@href').extract(),
-                'timestamp': news_headline.xpath('div/small/text()').extract()
-            }
-        #normalize-space()
-        next_page = response.css('li.quotes_content_left_lb_NextPage a::attr("href")').extract_first()
-        if next_page is not None:
-            next_page = response.urljoin(next_page)
-            yield scrapy.Request(next_page, callback=self.parse)
+        items = []
+        l = XPathItemLoader(item=NewsArticle(), response=response)
+        l.default_input_processor = MapCompose(lambda v: v.split(), replace_escape_chars)
+        l.default_output_processor = Join()
+        l.add_css('news-headlines')
+        l.add_xpath('headline', 'div/span/a/text()')
+        l.add_xpath('url', 'div/span/a/@href')
+        l.add_xpath('timestamp', 'div/small/text()')
+        items.append(l.load_item())
+        return items
