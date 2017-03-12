@@ -1,8 +1,6 @@
 import scrapy
-
-from scrapy.contrib.loader import ItemLoader
-
-from news_articles.items import NewsArticle
+import time
+import datetime
 
 """nasdaq_spider.py
 
@@ -17,11 +15,14 @@ class NasdaqSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        items = []
-        l = ItemLoader(item=NewsArticle(), response=response)
-        l.add_css('news-headlines')
-        l.add_xpath('headline', 'div/span/a/text()')
-        l.add_xpath('url', 'div/span/a/@href')
-        l.add_xpath('timestamp', 'div/small/text()')
-        items.append(l.load_item())
-        return items
+        for news_headline in response.css('div.news-headlines'):
+            yield {
+                'headline': news_headline.xpath('div/span/a/text()').extract(),
+                'url': news_headline.xpath('div/span/a/@href').extract(),
+                'timestamp': news_headline.xpath('div/small/text()').extract()
+            }
+
+        next_page = response.css('li.quotes_content_left_lb_NextPage a::attr("href")').extract_first()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
