@@ -17,6 +17,7 @@ class NewsArticle(scrapy.Item):
     headline = scrapy.Field()
     url = scrapy.Field()
     timestamp = scrapy.Field(
-        input_processor=MapCompose(lambda v: v.split(), replace_escape_chars),
+        input_processor=MapCompose(
+            lambda x: ' '.join(x.split()), replace_escape_chars),
         output_processor=Join()
     )

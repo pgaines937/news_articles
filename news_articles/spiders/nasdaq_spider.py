@@ -1,6 +1,5 @@
 import scrapy
 
-from scrapy.spider import BaseSpider
 from scrapy.contrib.loader import XPathItemLoader
 from news_articles.items import NewsArticle
 
@@ -10,7 +9,7 @@ run with: scrapy runspider nasdaq_spider.py -o nasdaq.jl
             scrapy crawl nasdaq -o nasdaq.json"""
 
 
-class NasdaqSpider(BaseSpider):
+class NasdaqSpider(scrapy.Spider):
     name = "nasdaq"
     start_urls = [
         'http://www.nasdaq.com/symbol/goog/news-headlines',
