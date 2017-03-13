@@ -18,7 +18,7 @@ class GoogleFinanceSpider(scrapy.Spider):
     name = "google_finance"
     allowed_domains = ["www.google.com"]
     start_urls = [
-        'https://www.google.com/finance/company_news?q=NASDAQ:GOOG&ei=jufFWMGjCYayjAG925mYDA&startdate=2017-01-01&enddate=2017-02-01&start=1&num=100',
+        'https://www.google.com/finance/company_news?q=NASDAQ:GOOG&ei=jufFWMGjCYayjAG925mYDA&startdate=2017-01-01&enddate=2017-02-01&start=0&num=100',
     ]
 
     #rules = (
