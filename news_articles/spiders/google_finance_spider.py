@@ -34,6 +34,7 @@ class GoogleFinanceSpider(CrawlSpider):
             }
 
         #next_page = response.xpath('.//td[@class="nav_b"]/a/@href').extract_first()
-        #if next_page is not None:
-        #    next_page = response.urljoin(next_page)
-        #    yield scrapy.Request(next_page, callback=self.parse)
+        next_page = response.css('td.nav_b a::attr("href")').extract_first()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
