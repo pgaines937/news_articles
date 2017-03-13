@@ -30,6 +30,9 @@ from pymongo.read_preferences import ReadPreference
 from scrapy import log
 from scrapy.contrib.exporter import BaseItemExporter
 
+from newspaper import Article
+from textblob import TextBlob
+
 VERSION = '0.9.1'
 
 
@@ -45,8 +48,15 @@ def not_set(string):
     return False
 
 
+def fetch_article(url):
+    article = Article(url)
+    article.parse()
+    return article.text
+
+
 class MongoDBPipeline(BaseItemExporter):
     """ MongoDB pipeline class """
+
     # Default options
     config = {
         'uri': 'mongodb://localhost:27017',
@@ -204,6 +214,10 @@ class MongoDBPipeline(BaseItemExporter):
         """
         item = dict(self._get_serialized_fields(item))
 
+        item['article_text'] = fetch_article(item['url'])
+        text = TextBlob(item['article_text'])
+        item['sentiment'] = text.sentiment.polarity
+
         if self.config['buffer']:
             self.current_item += 1
 
@@ -282,3 +296,6 @@ class MongoDBPipeline(BaseItemExporter):
                 spider=spider)
 
         return item
+
+    def export_item(self, item):
+        pass
