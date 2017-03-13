@@ -2,6 +2,7 @@ import scrapy
 import time
 import datetime
 
+from scrapy.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.spiders import CrawlSpider
 from scrapy.spiders import Rule
 from scrapy.linkextractors import LinkExtractor
@@ -19,9 +20,9 @@ class GoogleFinanceSpider(CrawlSpider):
         'https://www.google.com/finance/company_news?q=NASDAQ%3AGOOG&startdate=2017-1-01&enddate=2017-2-01&ei=-8zFWLnSFoe62Aam_4XoCQ',
     ]
 
-    #rules = (
-     #   Rule(LinkExtractor(allow=(), restrict_xpaths=('.//td[@class="nav_b"]/a/@href',)), callback="parse", follow=True),
-    #)
+    rules = (
+        Rule(SgmlLinkExtractor(allow=(), restrict_xpaths=('.//td[@class="nav_b"]/a/@href',)), callback="parse", follow=True),
+    )
 
     def parse(self, response):
         for news_headline in response.css('div.news'):
@@ -31,7 +32,7 @@ class GoogleFinanceSpider(CrawlSpider):
                 'date': news_headline.css('span.date').xpath('text()').extract()
             }
 
-        next_page = response.xpath('.//td[@class="nav_b"]/a/@href').extract_first()
-        if next_page is not None:
-            next_page = response.urljoin(next_page)
-            yield scrapy.Request(next_page, callback=self.parse)
+        #next_page = response.xpath('.//td[@class="nav_b"]/a/@href').extract_first()
+        #if next_page is not None:
+        #    next_page = response.urljoin(next_page)
+        #    yield scrapy.Request(next_page, callback=self.parse)
