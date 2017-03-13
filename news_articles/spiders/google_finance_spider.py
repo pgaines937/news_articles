@@ -18,7 +18,7 @@ class GoogleFinanceSpider(scrapy.Spider):
     name = "google_finance"
     allowed_domains = ["www.google.com"]
     start_urls = [
-        'https://www.google.com/finance/company_news?q=NASDAQ%3AGOOG&startdate=2017-1-01&enddate=2017-2-01&ei=-8zFWLnSFoe62Aam_4XoCQ',
+        'https://www.google.com/finance/company_news?q=NASDAQ:GOOG&ei=jufFWMGjCYayjAG925mYDA&startdate=2017-01-01&enddate=2017-02-01&start=1&num=100',
     ]
 
     #rules = (
@@ -34,7 +34,7 @@ class GoogleFinanceSpider(scrapy.Spider):
             }
 
         #next_page = response.xpath('.//td[@class="nav_b"]/a/@href').extract_first()
-        next_page = response.css('td.nav_b a::attr("href")').extract_first()
-        if next_page is not None:
-            next_page = response.urljoin(next_page)
-            yield scrapy.Request(next_page, callback=self.parse)
+        #next_page = response.css('td.nav_b a::attr("href")').extract_first()
+        #if next_page is not None:
+        #    next_page = response.urljoin(next_page)
+        #    yield scrapy.Request(next_page, callback=self.parse)
