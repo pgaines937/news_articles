@@ -50,6 +50,7 @@ def not_set(string):
 
 def fetch_article(url):
     article = Article(url)
+    article.download()
     article.parse()
     return article.text
 
@@ -216,7 +217,8 @@ class MongoDBPipeline(BaseItemExporter):
 
         item['article_text'] = fetch_article(item['url'])
         text = TextBlob(item['article_text'])
-        item['sentiment'] = text.sentiment.polarity
+        item['sentiment_polarity'] = text.sentiment.polarity
+        item['sentiment_subjectivity'] = text.sentiment.subjectivity
 
         if self.config['buffer']:
             self.current_item += 1
