@@ -30,6 +30,7 @@ from pymongo.read_preferences import ReadPreference
 from scrapy import log
 from scrapy.contrib.exporter import BaseItemExporter
 
+import w3lib.url
 from newspaper import Article
 from textblob import TextBlob
 
@@ -253,7 +254,9 @@ class MongoDBPipeline(BaseItemExporter):
         """
         if not isinstance(item, list):
             item = dict(item)
-            item['article_text'] = fetch_article(item['url'])
+            url = [w3lib.url.url_query_parameter(u, "url") for u in item['url']]
+            print(url)
+            item['article_text'] = fetch_article(url)
             text = TextBlob(item['article_text'])
             item['sentiment_polarity'] = text.sentiment.polarity
             item['sentiment_subjectivity'] = text.sentiment.subjectivity
