@@ -1,9 +1,6 @@
 Scrapy project for gathering news article headlines and metadata.
 
-Uses MongoDBPipeline.
-
-# Start Scrapyd:
-    scrapyd
+Uses a customized MongoDBPipeline that fetches the article text with the newspaper module and generates a sentiment polarity value with the textblob module.
 
 # Run Spider
 
