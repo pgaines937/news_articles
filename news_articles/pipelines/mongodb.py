@@ -255,12 +255,9 @@ class MongoDBPipeline(BaseItemExporter):
         if not isinstance(item, list):
             item = dict(item)
             #url = [w3lib.url.url_query_parameter(u, "url") for u in item['url']]
-            article = Article(item['url'])
-            article.download()
-            article.parse()
-            print(article.text)
-            item['article_text'] = article.text
-            text = TextBlob(article.text)
+            #print(item['url'])
+            item['article_text'] = fetch_article(item.get('url'))
+            text = TextBlob(item.get('article_text'))
             item['sentiment_polarity'] = text.sentiment.polarity
             item['sentiment_subjectivity'] = text.sentiment.subjectivity
 
