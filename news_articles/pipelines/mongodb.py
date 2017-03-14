@@ -215,11 +215,6 @@ class MongoDBPipeline(BaseItemExporter):
         """
         item = dict(self._get_serialized_fields(item))
 
-        item['article_text'] = fetch_article(item['url'])
-        text = TextBlob(item['article_text'])
-        item['sentiment_polarity'] = text.sentiment.polarity
-        item['sentiment_subjectivity'] = text.sentiment.subjectivity
-
         if self.config['buffer']:
             self.current_item += 1
 
@@ -258,6 +253,10 @@ class MongoDBPipeline(BaseItemExporter):
         """
         if not isinstance(item, list):
             item = dict(item)
+            item['article_text'] = fetch_article(item['url'])
+            text = TextBlob(item['article_text'])
+            item['sentiment_polarity'] = text.sentiment.polarity
+            item['sentiment_subjectivity'] = text.sentiment.subjectivity
 
             if self.config['append_timestamp']:
                 item['scrapy-mongodb'] = {'ts': datetime.datetime.utcnow()}

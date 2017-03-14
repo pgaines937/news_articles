@@ -16,4 +16,7 @@ class NewsArticle(scrapy.Item):
     # name = scrapy.Field()
     headline = scrapy.Field()
     url = scrapy.Field()
-    timestamp = scrapy.Field()
+    date = scrapy.Field()
+    article_text = scrapy.Field()
+    sentiment_polarity = scrapy.Field()
+    sentiment_subjectivity = scrapy.Field()
