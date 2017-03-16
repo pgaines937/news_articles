@@ -256,7 +256,7 @@ class MongoDBPipeline(BaseItemExporter):
             item['headline_sentiment_polarity'] = headline_sentiment.sentiment.polarity
             item['headline_sentiment_subjectivity'] = headline_sentiment.sentiment.subjectivity
 
-            article_sentiment = TextBlob(item.get('article_text')[0])
+            article_sentiment = TextBlob(item.get('article_text'))
             item['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
             item['article_sentiment_subjectivity'] = article_sentiment.sentiment.subjectivity
 
