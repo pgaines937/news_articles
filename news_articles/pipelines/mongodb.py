@@ -251,12 +251,7 @@ class MongoDBPipeline(BaseItemExporter):
                 article = Article(url)
                 article.download()
                 article.parse()
-
                 item['publish_date'] = article.publish_date
-
-                headline_sentiment = TextBlob(item.get('headline_text')[0])
-                item['headline_sentiment_polarity'] = headline_sentiment.sentiment.polarity
-                item['headline_sentiment_subjectivity'] = headline_sentiment.sentiment.subjectivity
 
                 article_sentiment = TextBlob(article.text)
                 item['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
