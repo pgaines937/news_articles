@@ -246,21 +246,23 @@ class MongoDBPipeline(BaseItemExporter):
         """
         if not isinstance(item, list):
             item = dict(item)
-            article = Article(item.get('url')[0])
-            article.download()
-            article.parse()
 
-            item['publish_date'] = article.publish_date
+            for url in item.get('url'):
+                article = Article(url)
+                article.download()
+                article.parse()
 
-            headline_sentiment = TextBlob(item.get('headline_text')[0])
-            item['headline_sentiment_polarity'] = headline_sentiment.sentiment.polarity
-            item['headline_sentiment_subjectivity'] = headline_sentiment.sentiment.subjectivity
+                item['publish_date'] = article.publish_date
 
-            article_sentiment = TextBlob(item.get('article_text'))
-            item['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
-            item['article_sentiment_subjectivity'] = article_sentiment.sentiment.subjectivity
+                headline_sentiment = TextBlob(item.get('headline_text')[0])
+                item['headline_sentiment_polarity'] = headline_sentiment.sentiment.polarity
+                item['headline_sentiment_subjectivity'] = headline_sentiment.sentiment.subjectivity
 
-            item['article_text'] = article.text
+                article_sentiment = TextBlob(item.get('article_text'))
+                item['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
+                item['article_sentiment_subjectivity'] = article_sentiment.sentiment.subjectivity
+
+                item['article_text'] = article.text
 
             print(item)
 
