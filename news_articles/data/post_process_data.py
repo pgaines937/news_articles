@@ -29,8 +29,9 @@ def flatten_articles():
     try:
         pipe = [{"$project": {"url": 1, "publish_date": 1, "sentiment_subjectivity": 1, "sentiment_polarity": 1,
                               "headline_text": 1, "article_text": 1}}]
-        result = database.articles.aggregate(pipeline=pipe)
-        print(result)
+        database.articles.aggregate(pipeline=pipe)
+        for line in database.articles.find():
+            print(line)
     except Exception as e:
         print("Error: " + str(e))
 
@@ -49,8 +50,8 @@ if __name__ == '__main__':
         collection = database[FLATTENED_COLLECTION]
 
         # Loading BusinessCollection from a json file to MongoDB
-        print("Loading NASDAQ_GOOG.json file into the " + QUANDL_DATA + " present inside " + MONGODB_DATABASE)
-        loadJsonIntoDB("NASDAQ_GOOG.json", collection)
+        #print("Loading NASDAQ_GOOG.json file into the " + QUANDL_DATA + " present inside the database " + MONGODB_DATABASE)
+        #loadJsonIntoDB("NASDAQ_GOOG.json", collection)
 
         # Flatten the articles collection
         print("Flattening the articles collection")
