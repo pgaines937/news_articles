@@ -252,7 +252,7 @@ class MongoDBPipeline(BaseItemExporter):
                 article = Article(url)
                 article.download()
                 article.parse()
-                item['url']['headline'] = item.get('headline')[url_counter]
+                item['url']['headline_text'] = item.get('headline_text')[url_counter]
                 url_counter += 1
 
                 item['url']['publish_date'] = article.publish_date
