@@ -1,13 +1,15 @@
-#!/usr/bin/python3.5
+#!/usr/bin/env python3
 #
 # Post Processor for Google Finance Spider scraped data
 # Name: Patrick Gaines
 #
 
 from pymongo import MongoClient
-from .. import settings
 import json
 
+MONGODB_URI = 'mongodb://localhost:27017'
+MONGODB_DATABASE = 'scrapy'
+MONGODB_COLLECTION = 'articles'
 FLATTENED_COLLECTION = 'articles_flattened'
 QUANDL_DATA = 'NASDAQ_GOOG.json'
 FINAL_DATASET = 'dataset'
