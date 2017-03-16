@@ -250,20 +250,22 @@ class MongoDBPipeline(BaseItemExporter):
             url_counter = 0
             for url in item.get('url'):
                 print(item.get('url')[url_counter])
+                print(item.get('headline_text')[url_counter])
                 print(url_counter)
                 article = Article(url)
                 article.download()
                 article.parse()
-                item['url']['headline_text'] = item.get('headline_text')[url_counter]
+                item['article']['url'] = url
+                item['article']['headline_text'] = item.get('headline_text')[url_counter]
                 url_counter += 1
 
-                item['url']['publish_date'] = article.publish_date
+                item['article']['publish_date'] = article.publish_date
 
-                article_sentiment = TextBlob(article.text)
-                item['url']['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
-                item['url']['article_sentiment_subjectivity'] = article_sentiment.sentiment.subjectivity
+                textblob = TextBlob(article.text)
+                item['article']['sentiment_polarity'] = textblob.sentiment.polarity
+                item['article']['sentiment_subjectivity'] = textblob.sentiment.subjectivity
 
-                item['url']['article_text'] = article.text
+                item['article']['article_text'] = article.text
 
             print(item)
 
