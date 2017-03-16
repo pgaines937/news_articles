@@ -257,22 +257,18 @@ class MongoDBPipeline(BaseItemExporter):
             url_counter = 0
             for url in item.get('url'):
                 print(url_counter)
-                print(item.get('url')[url_counter])
-                print(item.get('headline_text')[url_counter])
                 print(url)
+                print(item.get('url'))
                 article = Article(url)
                 article.download()
                 article.parse()
-
-                item['publish_date'][url_counter] = article.publish_date
-
                 textblob = TextBlob(article.text)
-                item['sentiment_polarity'][url_counter] = textblob.sentiment.polarity
-                item['sentiment_subjectivity'][url_counter] = textblob.sentiment.subjectivity
 
-                item['article_text'][url_counter] = article.text
+                item['publish_date'].append(article.publish_date)
+                item['sentiment_polarity'].append(textblob.sentiment.polarity)
+                item['sentiment_subjectivity'].append(textblob.sentiment.subjectivity)
+                item['article_text'].append(article.text)
 
-                url_counter += 1
             print(item)
 
             if self.config['append_timestamp']:
