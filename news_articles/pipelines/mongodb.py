@@ -33,6 +33,8 @@ from scrapy.contrib.exporter import BaseItemExporter
 from newspaper import Article
 from textblob import TextBlob
 
+from collections import defaultdict
+
 VERSION = '0.9.1'
 
 
@@ -247,26 +249,30 @@ class MongoDBPipeline(BaseItemExporter):
         if not isinstance(item, list):
             item = dict(item)
 
+            item['publish_date'] = []
+            item['sentiment_polarity'] = []
+            item['sentiment_subjectivity'] = []
+            item['article_text'] = []
+
             url_counter = 0
             for url in item.get('url'):
+                print(url_counter)
                 print(item.get('url')[url_counter])
                 print(item.get('headline_text')[url_counter])
-                print(url_counter)
+                print(url)
                 article = Article(url)
                 article.download()
                 article.parse()
-                item['article']['url'] = url
-                item['article']['headline_text'] = item.get('headline_text')[url_counter]
-                url_counter += 1
 
-                item['article']['publish_date'] = article.publish_date
+                item['publish_date'][url_counter] = article.publish_date
 
                 textblob = TextBlob(article.text)
-                item['article']['sentiment_polarity'] = textblob.sentiment.polarity
-                item['article']['sentiment_subjectivity'] = textblob.sentiment.subjectivity
+                item['sentiment_polarity'][url_counter] = textblob.sentiment.polarity
+                item['sentiment_subjectivity'][url_counter] = textblob.sentiment.subjectivity
 
-                item['article']['article_text'] = article.text
+                item['article_text'][url_counter] = article.text
 
+                url_counter += 1
             print(item)
 
             if self.config['append_timestamp']:
