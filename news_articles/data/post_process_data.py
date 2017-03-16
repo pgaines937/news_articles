@@ -21,9 +21,16 @@ def loadJsonIntoDB(fileName, collection):
     except Exception as e:
         print("Error: " + str(e))
 
+
 """Flattens the nested articles into a dict"""
 def flatten_articles():
-    pass
+    try:
+        pipe = [{"$project": {"url": 1, "publish_date": 1, "sentiment_subjectivity": 1, "sentiment_polarity": 1,
+                              "headline_text": 1, "article_text": 1}}]
+        result = database.articles.aggregate(pipeline=pipe)
+        print(result)
+    except Exception as e:
+        print("Error: " + str(e))
 
 
 if __name__ == '__main__':
@@ -40,8 +47,8 @@ if __name__ == '__main__':
         collection = database[FLATTENED_COLLECTION]
 
         # Loading BusinessCollection from a json file to MongoDB
-        print("Loading NASDAQ_GOOG.json file into the " + QUANDL_COLLECTION + " present inside " + settings.MONGODB_DATABASE)
-        loadJsonIntoDB("testData.json", collection)
+        print("Loading NASDAQ_GOOG.json file into the " + QUANDL_DATA + " present inside " + settings.MONGODB_DATABASE)
+        loadJsonIntoDB("NASDAQ_GOOG.json", collection)
 
         # Flatten the articles collection
         print("Flattening the articles collection")
