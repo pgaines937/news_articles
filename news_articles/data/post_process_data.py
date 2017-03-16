@@ -38,18 +38,18 @@ def flatten_articles():
 if __name__ == '__main__':
     try:
         # Getting Connection from MongoDB
-        conn = MongoClient(settings.MONGODB_URI)
+        conn = MongoClient(MONGODB_URI)
 
         # Connecting to MongoDB
-        print("Connecting to database in MongoDB named as " + settings.MONGODB_DATABASE)
-        database = conn[settings.MONGODB_DATABASE]
+        print("Connecting to database in MongoDB named as " + MONGODB_DATABASE)
+        database = conn[MONGODB_DATABASE]
 
         # Creating a collection named businessCollection in MongoDB
-        print("Creating a collection in " + settings.MONGODB_DATABASE + " named as " + FLATTENED_COLLECTION)
+        print("Creating a collection in " + MONGODB_DATABASE + " named as " + FLATTENED_COLLECTION)
         collection = database[FLATTENED_COLLECTION]
 
         # Loading BusinessCollection from a json file to MongoDB
-        print("Loading NASDAQ_GOOG.json file into the " + QUANDL_DATA + " present inside " + settings.MONGODB_DATABASE)
+        print("Loading NASDAQ_GOOG.json file into the " + QUANDL_DATA + " present inside " + MONGODB_DATABASE)
         loadJsonIntoDB("NASDAQ_GOOG.json", collection)
 
         # Flatten the articles collection
