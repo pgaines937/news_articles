@@ -30,8 +30,9 @@ def flatten_articles():
         pipe = [{"$project": {"url": 1, "publish_date": 1, "sentiment_subjectivity": 1, "sentiment_polarity": 1,
                               "headline_text": 1, "article_text": 1}}]
         database.articles.aggregate(pipeline=pipe)
-        for line in database.articles.find():
-            print(line)
+        for item in database.articles.find():
+            print(item)
+            database.articles_flattened.insert(item)
     except Exception as e:
         print("Error: " + str(e))
 
