@@ -247,17 +247,21 @@ class MongoDBPipeline(BaseItemExporter):
         if not isinstance(item, list):
             item = dict(item)
 
+            url_counter = 0
             for url in item.get('url'):
                 article = Article(url)
                 article.download()
                 article.parse()
-                item['publish_date'] = article.publish_date
+                item['url']['headline'] = item.get('headline')[url_counter]
+                url_counter += 1
+
+                item['url']['publish_date'] = article.publish_date
 
                 article_sentiment = TextBlob(article.text)
-                item['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
-                item['article_sentiment_subjectivity'] = article_sentiment.sentiment.subjectivity
+                item['url']['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
+                item['url']['article_sentiment_subjectivity'] = article_sentiment.sentiment.subjectivity
 
-                item['article_text'] = article.text
+                item['url']['article_text'] = article.text
 
             print(item)
 

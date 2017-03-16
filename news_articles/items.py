@@ -12,9 +12,9 @@ from scrapy.utils.markup import replace_escape_chars
 class NewsArticle(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    url = scrapy.Field()
-    publish_date = scrapy.Field()
-    article_sentiment_polarity = scrapy.Field()
-    article_sentiment_subjectivity = scrapy.Field()
     headline_text = scrapy.Field()
-    article_text = scrapy.Field()
+    url = scrapy.Field()
+    #publish_date = scrapy.Field()
+    #article_sentiment_polarity = scrapy.Field()
+    #article_sentiment_subjectivity = scrapy.Field()
+    #article_text = scrapy.Field()
