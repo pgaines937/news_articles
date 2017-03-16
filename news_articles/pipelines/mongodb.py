@@ -48,13 +48,6 @@ def not_set(string):
     return False
 
 
-def fetch_article(url):
-    article = Article(url)
-    article.download()
-    article.parse()
-    return article.text
-
-
 class MongoDBPipeline(BaseItemExporter):
     """ MongoDB pipeline class """
 
@@ -253,11 +246,23 @@ class MongoDBPipeline(BaseItemExporter):
         """
         if not isinstance(item, list):
             item = dict(item)
-            print(item.get('url')[0])
-            item['article_text'] = fetch_article(item.get('url')[0])
-            text = TextBlob(item.get('article_text'))
-            item['sentiment_polarity'] = text.sentiment.polarity
-            item['sentiment_subjectivity'] = text.sentiment.subjectivity
+            article = Article(item.get('url')[0])
+            article.download()
+            article.parse()
+
+            item['publish_date'] = article.publish_date
+
+            headline_sentiment = TextBlob(item.get('headline_text'))
+            item['headline_sentiment_polarity'] = headline_sentiment.sentiment.polarity
+            item['headline_sentiment_subjectivity'] = headline_sentiment.sentiment.subjectivity
+
+            article_sentiment = TextBlob(item.get('article_text'))
+            item['article_sentiment_polarity'] = article_sentiment.sentiment.polarity
+            item['article_sentiment_subjectivity'] = article_sentiment.sentiment.subjectivity
+
+            item['article_text'] = article.text
+
+            print(item)
 
             if self.config['append_timestamp']:
                 item['scrapy-mongodb'] = {'ts': datetime.datetime.utcnow()}

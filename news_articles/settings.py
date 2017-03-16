@@ -71,7 +71,7 @@ ITEM_PIPELINES = {
 
 MONGODB_URI = 'mongodb://localhost:27017'
 MONGODB_DATABASE = 'scrapy'
-MONGODB_COLLECTION = 'articles'
+MONGODB_COLLECTION = 'articles2'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
