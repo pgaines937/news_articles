@@ -248,6 +248,7 @@ class MongoDBPipeline(BaseItemExporter):
             item = dict(item)
 
             url_counter = 0
+            print(item.get('url'))
             for url in item.get('url'):
                 print(url_counter)
                 article = Article(url)
