@@ -48,10 +48,10 @@ def flatten_json(y):
 def flatten_articles():
     try:
         article_data = {}
-        for articles in database.articles.find():
-            for item in articles.items():
-                print(item)
-                #article_data.update(item)
+        cursor = database.articles.find()
+        for item in cursor.items():
+            print(item)
+            #article_data.update(item)
         #print(article_data)
     except Exception as e:
         print("Error: " + str(e))
