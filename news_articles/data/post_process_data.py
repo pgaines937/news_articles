@@ -49,9 +49,12 @@ def flatten_articles():
     try:
         article_data = {}
         for articles in database.articles.find():
-            for item in articles.items():
+            items = articles.items()
+            article_data = items.pop(0)
+            print(article_data)
+            for item in items:
                 print(item)
-                #article_data.update(item)
+                article_data.update(item)
         #print(article_data)
     except Exception as e:
         print("Error: " + str(e))
