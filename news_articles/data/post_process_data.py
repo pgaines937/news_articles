@@ -52,9 +52,9 @@ def flatten_articles():
         database.articles.aggregate(pipeline=pipe)
         articles = dict(database.articles.find())
         flat = flatten_json(articles)
-        json_normalize(flat)
+        flat_normalized = json_normalize(flat)
 
-        print("Printing flattened object:", flat)
+        print("Printing flattened object:", flat_normalized)
 
         """
         for item in database.articles.find():
