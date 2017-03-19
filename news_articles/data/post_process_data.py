@@ -54,7 +54,7 @@ def flatten_articles():
         flat = flatten_json(articles)
         json_normalize(flat)
 
-        print(flat)
+        print("Printing flattened object:", flat)
 
         """
         for item in database.articles.find():
