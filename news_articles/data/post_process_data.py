@@ -5,6 +5,7 @@
 #
 
 from pymongo import MongoClient
+from pandas.io.json import json_normalize
 import json
 
 MONGODB_URI = 'mongodb://localhost:27017'
@@ -24,17 +25,43 @@ def loadJsonIntoDB(fileName, collection):
         print("Error: " + str(e))
 
 
+def flatten_json(y):
+    out = {}
+
+    def flatten(x, name=''):
+        if type(x) is dict:
+            for a in x:
+                flatten(x[a], name + a + '_')
+        elif type(x) is list:
+            i = 0
+            for a in x:
+                flatten(a, name + str(i) + '_')
+                i += 1
+        else:
+            out[name[:-1]] = x
+
+    flatten(y)
+    return out
+
+
 """Flattens the nested articles into a dict"""
 def flatten_articles():
     try:
         pipe = [{"$project": {"url": 1, "publish_date": 1, "sentiment_subjectivity": 1, "sentiment_polarity": 1,
                               "headline_text": 1, "article_text": 1}}]
         database.articles.aggregate(pipeline=pipe)
+        articles = database.articles.find()
+        flat = flatten_json(articles)
+        json_normalize(flat)
+
+        print(flat)
+
+        """
         for item in database.articles.find():
             print(item)
             counter = 0
             for url in item['url']:
-                database.articles_flattened.insert(item)
+                database.articles_flattened.insert(item)"""
     except Exception as e:
         print("Error: " + str(e))
 
