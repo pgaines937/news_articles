@@ -50,7 +50,7 @@ def flatten_articles():
         pipe = [{"$project": {"url": 1, "publish_date": 1, "sentiment_subjectivity": 1, "sentiment_polarity": 1,
                               "headline_text": 1, "article_text": 1}}]
         database.articles.aggregate(pipeline=pipe)
-        articles = database.articles.find()
+        articles = list(database.articles.find())
         flat = flatten_json(articles)
         json_normalize(flat)
 
