@@ -47,27 +47,9 @@ def flatten_json(y):
 """Flattens the nested articles into a dict"""
 def flatten_articles():
     try:
-        pipe = [{"$project": {"url": 1, "publish_date": 1, "sentiment_subjectivity": 1, "sentiment_polarity": 1,
-                              "headline_text": 1, "article_text": 1}}]
-        database.articles.aggregate(pipeline=pipe)
-        articles = list(database.articles.find())
-
-        print("Printing flat object:", articles)
-
-        flat = flatten_json(articles)
-
-        print("Printing flat object:", flat)
-
-        flat_normalized = json_normalize(flat)
-
-        print("Printing normalized object:", flat_normalized)
-
-        """
+        article_data = {}
         for item in database.articles.find():
             print(item)
-            counter = 0
-            for url in item['url']:
-                database.articles_flattened.insert(item)"""
     except Exception as e:
         print("Error: " + str(e))
 
