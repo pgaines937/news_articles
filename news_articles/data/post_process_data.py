@@ -50,7 +50,7 @@ def flatten_articles():
         article_data = {}
         for item in database.articles.find():
             if item is not None:
-                print(item['_id'])
+                print(item['url'])
     except Exception as e:
         print("Error: " + str(e))
 
