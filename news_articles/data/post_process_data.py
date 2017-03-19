@@ -49,9 +49,8 @@ def flatten_articles():
     try:
         article_data = {}
         for item in database.articles.find():
-            if item['url'] is None:
-                break
-            print(item)
+            if item['url'] is not None:
+                print(item)
     except Exception as e:
         print("Error: " + str(e))
 
