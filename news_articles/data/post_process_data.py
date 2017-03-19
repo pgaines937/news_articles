@@ -50,6 +50,7 @@ def flatten_articles():
         article_data = {}
         for articles in database.articles.find():
             for item in articles.items():
+                print(item)
                 if not article_data:
                     article_data = item
                 else:
