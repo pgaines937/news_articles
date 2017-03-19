@@ -32,7 +32,9 @@ def flatten_articles():
         database.articles.aggregate(pipeline=pipe)
         for item in database.articles.find():
             print(item)
-            database.articles_flattened.insert(item)
+            counter = 0
+            for url in item['url']:
+                database.articles_flattened.insert(item)
     except Exception as e:
         print("Error: " + str(e))
 
