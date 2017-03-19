@@ -49,7 +49,7 @@ def flatten_articles():
     try:
         article_data = {}
         cursor = database.articles.find()
-        for item in cursor.items():
+        for item in cursor:
             print(item)
             #article_data.update(item)
         #print(article_data)
