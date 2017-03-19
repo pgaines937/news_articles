@@ -51,10 +51,16 @@ def flatten_articles():
                               "headline_text": 1, "article_text": 1}}]
         database.articles.aggregate(pipeline=pipe)
         articles = list(database.articles.find())
+
+        print("Printing flat object:", articles)
+
         flat = flatten_json(articles)
+
+        print("Printing flat object:", flat)
+
         flat_normalized = json_normalize(flat)
 
-        print("Printing flattened object:", flat_normalized)
+        print("Printing normalized object:", flat_normalized)
 
         """
         for item in database.articles.find():
