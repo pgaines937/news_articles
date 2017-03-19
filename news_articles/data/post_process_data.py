@@ -50,8 +50,9 @@ def flatten_articles():
         article_data = {}
         for articles in database.articles.find():
             for key, values in articles.items():
-                for value in values:
-                    print(key, value)
+                print(key, values)
+               #for value in values:
+                #    print(key, value)
                     #article_data[key] = value
             #    article_data.
             #if len(articles['url']) is not 0:
