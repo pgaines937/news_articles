@@ -33,9 +33,8 @@ def flatten_articles():
             for key, value in articles.items():
                 print(key, value)
                 if not len(article_data[key]):
-                    article_data[key] = value
-                else:
-                    article_data[key] += value
+                    article_data[key] = []
+                article_data[key] += value
         print(article_data)
     except Exception as e:
         print("Error: " + str(e))
