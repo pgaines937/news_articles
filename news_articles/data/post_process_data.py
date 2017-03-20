@@ -29,8 +29,8 @@ def loadJsonIntoDB(fileName, collection):
 def flatten_articles():
     try:
         articles = list(database.articles.find())
-        for article in articles:
-            print(article)
+        for key, value in articles:
+            print(key, value)
         # print("Printing flat object:", articles)
 
     except Exception as e:
