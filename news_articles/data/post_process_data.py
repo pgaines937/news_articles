@@ -28,11 +28,15 @@ def loadJsonIntoDB(fileName, collection):
 """Flattens the nested articles into a dict"""
 def flatten_articles():
     try:
-        articles = list(database.articles.find())
-        for key, value in articles:
-            print(key, value)
-        # print("Printing flat object:", articles)
-
+        article_data = {}
+        for articles in database.articles.find():
+            for key, value in articles.items():
+                print(key, value)
+                #if not article_data:
+                #    article_data = item
+                #else:
+                #    article_data.update(item)
+        print(article_data)
     except Exception as e:
         print("Error: " + str(e))
 
