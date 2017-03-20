@@ -3,7 +3,7 @@
 # Post Processor for Google Finance Spider scraped data
 # Name: Patrick Gaines
 #
-
+import datetime
 from pymongo import MongoClient
 import pandas as pd
 import json
@@ -17,7 +17,8 @@ STOCK_COLLECTION = 'stock_prices'
 ARTICLES_DATA = 'articles.json'
 ARTICLES_CSV = 'articles.csv'
 STOCK_DATA = 'NASDAQ_GOOG.json'
-FINAL_DATASET = 'dataset'
+STOCK_CSV = 'NASDAQ_GOOG.csv'
+FINAL_DATASET = 'dataset.csv'
 
 
 def convert_json_to_csv(filename, collection):
@@ -36,26 +37,47 @@ def convert_json_to_csv(filename, collection):
                 item_list.append(parsed_json)
         item_dict = item_list.pop(0)
         item_dict.pop('_id')
-        for item in item_list:
-            item.pop('_id')
-            for key, values in item.items():
+        item_dict.pop('url')
+        item_dict.pop('headline_text')
+        item_dict.pop('article_text')
+        for item2 in item_list:
+            item2.pop('_id')
+            item2.pop('url')
+            item2.pop('headline_text')
+            item2.pop('article_text')
+            for key, values in item2.items():
                 for value in values:
                    item_dict[key].append(value)
-
         print(list(item_dict.keys()))
         print(list(item_dict.values()))
 
-        values_list = item_dict.values()
+        flat_list_of_dicts = []
+        max_index = len(item_dict.keys()) - 1
+        while list(item_dict.values())[max_index]:
+            #record = { "url" : None, "headline_text" : None, "publish_date" : None, "sentiment_subjectivity" : None, "sentiment_polarity" : None, "article_text" : None }
+            record = { "publish_date" : None, "sentiment_subjectivity" : None, "sentiment_polarity" : None }
+            for key, value in item_dict.items():
+                record[key] = value.pop()
+            flat_list_of_dicts.append(record)
 
-        index = 0
-        record = [[], [], [], [], [], []]
-        object_list = []
-        while values_list[0]:
-        for key_list in values_list:
-            record[index] = key_list.pop(index)
+        print(flat_list_of_dicts)
 
+        with open(ARTICLES_CSV, 'w+', encoding="utf8") as f:  # Just use 'w' mode in 3.x
+            w = csv.writer(f)
+            flat_list_of_dicts[0]['Date'] = 'None'
+            w.writerow(flat_list_of_dicts[0].keys())
+            for item3 in flat_list_of_dicts:
+                if item3['publish_date'] and item3['sentiment_polarity'] > 0:
+                    publish_date = item3['publish_date']['$date']
+                    date_list = list(publish_date.split('T'))
+                    item3['Date'] = date_list[0]
+                    w.writerow(item3.values())
 
-
+        a = pd.read_csv(ARTICLES_CSV)
+        b = pd.read_csv(STOCK_CSV)
+        b = b.dropna(axis=1)
+        merged = a.merge(b, on='Date')
+        merged.to_csv(FINAL_DATASET, index=False)
 
     except Exception as e:
         print("Error: " + str(e))
