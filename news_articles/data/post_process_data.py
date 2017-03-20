@@ -32,7 +32,7 @@ def flatten_articles():
         for articles in database.articles.find():
             for key, value in articles.items():
                 print(key, value)
-                if not len(article_data[key]):
+                if not key in article_data:
                     print("Creating list")
                     article_data[key] = []
                 print("Appending list")
