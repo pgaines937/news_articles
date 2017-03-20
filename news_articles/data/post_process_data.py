@@ -67,7 +67,7 @@ def convert_json_to_csv(filename, collection):
             flat_list_of_dicts[0]['Date'] = 'None'
             w.writerow(flat_list_of_dicts[0].keys())
             for item3 in flat_list_of_dicts:
-                if item3['publish_date'] and item3['sentiment_polarity'] > 0:
+                if item3['publish_date']:
                     publish_date = item3['publish_date']['$date']
                     date_list = list(publish_date.split('T'))
                     item3['Date'] = date_list[0]
