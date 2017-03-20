@@ -47,15 +47,8 @@ def flatten_json(y):
 """Flattens the nested articles into a dict"""
 def flatten_articles():
     try:
-        article_data = {}
-        for articles in database.articles.find():
-            for item in articles.items():
-                print(item)
-                if not article_data:
-                    article_data = item
-                else:
-                    article_data.update(item)
-        print(article_data)
+        articles = list(database.articles.find())
+        print("Printing flat object:", articles)
     except Exception as e:
         print("Error: " + str(e))
 
