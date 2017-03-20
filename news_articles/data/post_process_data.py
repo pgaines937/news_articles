@@ -49,6 +49,10 @@ def flatten_articles():
     try:
         articles = list(database.articles.find())
         print("Printing flat object:", articles)
+
+        flat = flatten_json(articles)
+        print("Printing flat object:", flat)
+
     except Exception as e:
         print("Error: " + str(e))
 
