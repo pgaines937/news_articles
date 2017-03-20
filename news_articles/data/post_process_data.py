@@ -32,10 +32,10 @@ def flatten_articles():
         for articles in database.articles.find():
             for key, value in articles.items():
                 print(key, value)
-                #if not article_data:
-                #    article_data = item
-                #else:
-                #    article_data.update(item)
+                if not len(article_data[key]):
+                    article_data[key] = value
+                else:
+                    article_data[key] += value
         print(article_data)
     except Exception as e:
         print("Error: " + str(e))
