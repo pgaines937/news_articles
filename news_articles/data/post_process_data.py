@@ -25,33 +25,13 @@ def loadJsonIntoDB(fileName, collection):
         print("Error: " + str(e))
 
 
-def flatten_json(y):
-    out = {}
-
-    def flatten(x, name=''):
-        if type(x) is dict:
-            for a in x:
-                flatten(x[a], name + a + '_')
-        elif type(x) is list:
-            i = 0
-            for a in x:
-                flatten(a, name + str(i) + '_')
-                i += 1
-        else:
-            out[name[:-1]] = x
-
-    flatten(y)
-    return out
-
-
 """Flattens the nested articles into a dict"""
 def flatten_articles():
     try:
         articles = list(database.articles.find())
-        print("Printing flat object:", articles)
-
-        flat = flatten_json(articles)
-        print("Printing flat object:", flat)
+        for article in articles:
+            print(article)
+        # print("Printing flat object:", articles)
 
     except Exception as e:
         print("Error: " + str(e))
