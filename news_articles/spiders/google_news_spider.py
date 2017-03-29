@@ -31,6 +31,6 @@ class GoogleFinanceSpider(scrapy.Spider):
     def parse(self, response):
         for news_headline in response.css('div.ires'):
             yield {
-                'headline_text': news_headline.xpath('a/text()').extract(),
-                'url': news_headline.xpath('a/@href').extract()
+                'headline_text': news_headline.xpath('//a/text()').extract(),
+                'url': news_headline.xpath('//a/@href').extract()
             }
