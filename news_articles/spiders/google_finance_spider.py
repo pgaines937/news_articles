@@ -12,12 +12,12 @@ class GoogleFinanceSpider(scrapy.Spider):
     name = "google_finance"
     allowed_domains = ["www.google.com"]
     start_urls = [
-        'http://finance.yahoo.com/quote/GOOG?ltr=1'
+        'https://www.google.com/search?q=google&tbm=nws&start=0&num=100'
     ]
 
     def parse(self, response):
         for news_headline in response.css('div.news'):
             yield {
-                'headline_text': news_headline.css('a#n-cn-').xpath('text()').extract(),
-                'url': news_headline.css('a#n-cn-').xpath('@href').extract()
+                'headline_text': news_headline.css('a').xpath('text()').extract(),
+                'url': news_headline.css('a').xpath('@href').extract()
             }
