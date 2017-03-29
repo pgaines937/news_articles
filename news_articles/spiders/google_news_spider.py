@@ -16,16 +16,15 @@ run with:
 after the spider runs, export the database:
             mongoexport --db scrapy --collection articles4 --out articles.json"""
 
-class GoogleFinanceSpider(scrapy.Spider):
+class GoogleNewsSpider(scrapy.Spider):
     name = "google_news"
-    allowed_domains = ["www.google.com"]
     start_urls = [
         'http://www.pgaines937.io/google0.html',
         'http://www.pgaines937.io/google1.html',
         'http://www.pgaines937.io/google2.html',
         'http://www.pgaines937.io/google3.html',
         'http://www.pgaines937.io/google4.html',
-        'http://www.pgaines937.io/google5.html',
+        'http://www.pgaines937.io/google5.html'
     ]
 
     def parse(self, response):
