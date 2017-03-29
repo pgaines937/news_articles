@@ -17,7 +17,7 @@ after the spider runs, export the database:
             mongoexport --db scrapy --collection articles4 --out articles.json"""
 
 class GoogleFinanceSpider(scrapy.Spider):
-    name = "google_finance"
+    name = "google_news"
     allowed_domains = ["www.google.com"]
     start_urls = [
         'http://localhost/google0.html',
