@@ -4,8 +4,13 @@ import datetime
 
 """nasdaq_spider.py
 
-run with: scrapy runspider nasdaq_spider.py -o nasdaq.jl
-            scrapy crawl nasdaq -o nasdaq.json"""
+run with:
+            scrapy crawl nasdaq
+            scrapy runspider nasdaq_spider.py -o nasdaq.jl
+            scrapy crawl nasdaq -o nasdaq.json
+
+after the spider runs, export the database:
+            mongoexport --db scrapy --collection articles3 --out articles.json"""            
 
 
 class NasdaqSpider(scrapy.Spider):

@@ -2,7 +2,9 @@ import scrapy
 
 """google_finance_spider.py
 
-run with: scrapy runspider google_finance_spider.py -o google_finance.jl
+run with:
+            scrapy crawl google_finance
+            scrapy runspider google_finance_spider.py -o google_finance.jl
             scrapy crawl google_finance -o google_finance.json
 
 after the spider runs, export the database:
