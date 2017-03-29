@@ -12,10 +12,7 @@ class GoogleFinanceSpider(scrapy.Spider):
     name = "google_finance"
     allowed_domains = ["www.google.com"]
     start_urls = [
-
-        'http://www.nasdaq.com/symbol/goog/news-headlines'
-
-
+        'http://finance.yahoo.com/quote/GOOG?ltr=1'
     ]
 
     def parse(self, response):
