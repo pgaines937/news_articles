@@ -10,7 +10,7 @@ run with:
             scrapy crawl nasdaq -o nasdaq.json
 
 after the spider runs, export the database:
-            mongoexport --db scrapy --collection articles3 --out articles2.json"""
+            mongoexport --db scrapy --collection articles3 --out articles3.json"""
 
 
 class NasdaqSpider(scrapy.Spider):

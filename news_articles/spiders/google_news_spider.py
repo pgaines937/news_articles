@@ -14,7 +14,7 @@ run with:
             scrapy crawl google_news -o google_news.json
 
 after the spider runs, export the database:
-            mongoexport --db scrapy --collection articles4 --out articles3.json"""
+            mongoexport --db scrapy --collection articles4 --out articles4.json"""
 
 class GoogleNewsSpider(scrapy.Spider):
     name = "google_news"
