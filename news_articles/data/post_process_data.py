@@ -3,11 +3,12 @@
 # Post Processor for Google Finance Spider scraped data
 # Name: Patrick Gaines
 #
-import datetime
+import fileinput
 from pymongo import MongoClient
 import pandas as pd
 import json
 import csv
+import time
 
 MONGODB_URI = 'mongodb://localhost:27017'
 MONGODB_DATABASE = 'scrapy'
@@ -125,18 +126,18 @@ if __name__ == '__main__':
         #print("Loading NASDAQ_GOOG.json file into the " + QUANDL_DATA + " present inside the database " + MONGODB_DATABASE)
         #loadJsonIntoDB("NASDAQ_GOOG.json", collection)
 
-        # Loading stock data from a json file to MongoDB
-        print("Converting articles to csv and cross joining on stock data")
-        convert_json_to_csv('articles2.json', 'articles2.csv', 'dataset2.csv')
-        convert_json_to_csv('articles3.json', 'articles3.csv', 'dataset3.csv')
-        convert_json_to_csv('articles4.json', 'articles4.csv', 'dataset4.csv')
+        print("Concatenating articles")
 
-        dataset_files = ['dataset2.csv', 'dataset3.csv', 'dataset4.csv']
-        df_list = []
-        for filename in sorted(dataset_files):
-            df_list.append(pd.read_csv(filename))
-        full_df = pd.concat(df_list)
-        full_df.to_csv('combined_dataset.csv')
+        filenames = ['articles2.json', 'articles3.json', 'articles4.json']
+        with open('combined_articles.json', 'w', encoding='utf8') as fout, fileinput.input(filenames, openhook=fileinput.hook_encoded("utf-8")) as fin:
+            for line in fin:
+                fout.write(line)
+
+        time.sleep(3)
+
+        # Converting articles to csv and cross joining on stock data
+        print("Converting articles to csv and cross joining on stock data")
+        convert_json_to_csv('combined_articles.json', 'combined_articles.csv', 'combined_dataset.csv')
 
         # Loading stock data from a json file to MongoDB
         #print("Loading " + STOCK_DATA + " file in the " + STOCK_COLLECTION + " present inside the database " + MONGODB_DATABASE)

@@ -64,7 +64,7 @@ class NasdaqSpider(scrapy.Spider):
     def parse(self, response):
         for news_headline in response.css('div.news-headlines'):
             yield {
-                'headline': news_headline.xpath('div/span/a/text()').extract(),
+                'headline_text': news_headline.xpath('div/span/a/text()').extract(),
                 'url': news_headline.xpath('div/span/a/@href').extract()
                 #'timestamp': news_headline.xpath('div/small/text()').extract()
             }
