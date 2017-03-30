@@ -8,7 +8,7 @@ run with:
             scrapy crawl google_finance -o google_finance.json
 
 after the spider runs, export the database:
-            mongoexport --db scrapy --collection articles2 --out articles.json"""
+            mongoexport --db scrapy --collection articles2 --out articles2.json"""
 
 class GoogleFinanceSpider(scrapy.Spider):
     name = "google_finance"
