@@ -28,7 +28,7 @@ class GoogleNewsSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        for news_headline in response:
+        for news_headline in response.css('rso'):
             yield {
                 #'headline_text': news_headline.css('a').xpath('text()').extract(),
                 'headline_text': news_headline.xpath('//a[@class="l _HId"]/text()').extract(),
