@@ -30,6 +30,9 @@ class GoogleNewsSpider(scrapy.Spider):
     def parse(self, response):
         for news_headline in response.css('div.ires'):
             yield {
-                'headline_text': news_headline.css('a').xpath('text()').extract(),
-                'url': news_headline.css('a').xpath('@href').extract()
+                #'headline_text': news_headline.css('a').xpath('text()').extract(),
+                'headline_text': news_headline.select('//a[@class="l _HId"]/text() | //a[@class="_sQb"]/text()').extract(),
+                #'url': news_headline.css('a').xpath('@href').extract()
+                'url': news_headline.select('//a[@class="l _HId"]/@href | //a[@class="_sQb"]/@href').extract()
+
             }
