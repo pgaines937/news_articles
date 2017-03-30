@@ -21,11 +21,11 @@ STOCK_CSV = 'NASDAQ_GOOG.csv'
 FINAL_DATASET = 'dataset.csv'
 
 
-def convert_json_to_csv(filename, collection):
+def convert_json_to_csv(articles_json, articles_csv, dataset_csv):
     try:
         item_list = []
 
-        page = open(filename, "r", encoding="utf8")
+        page = open(articles_json, "r", encoding="utf8")
         json_str = page.read()
         print(json_str)
         data_list = list(json_str.split('\n'))
@@ -62,7 +62,7 @@ def convert_json_to_csv(filename, collection):
 
         print(flat_list_of_dicts)
 
-        with open(ARTICLES_CSV, 'w+', encoding="utf8") as f:  # Just use 'w' mode in 3.x
+        with open(articles_csv, 'w+', encoding="utf8") as f:  # Just use 'w' mode in 3.x
             w = csv.writer(f)
             flat_list_of_dicts[0]['Date'] = 'None'
             w.writerow(flat_list_of_dicts[0].keys())
@@ -73,11 +73,11 @@ def convert_json_to_csv(filename, collection):
                     item3['Date'] = date_list[0]
                     w.writerow(item3.values())
 
-        a = pd.read_csv(ARTICLES_CSV)
-        b = pd.read_csv(STOCK_CSV)
+        a = pd.read_csv(articles_csv)
+        b = pd.read_csv('NASDAQ_GOOG.csv')
         b = b.dropna(axis=1)
         merged = a.merge(b, on='Date')
-        merged.to_csv(FINAL_DATASET, index=False)
+        merged.to_csv(dataset_csv, index=False)
 
     except Exception as e:
         print("Error: " + str(e))
@@ -126,8 +126,17 @@ if __name__ == '__main__':
         #loadJsonIntoDB("NASDAQ_GOOG.json", collection)
 
         # Loading stock data from a json file to MongoDB
-        print("Loading " + ARTICLES_DATA + " file in the " + ARTICLES_COLLECTION + " present inside the database " + MONGODB_DATABASE)
-        convert_json_to_csv(ARTICLES_DATA, articles_flattened_collection)
+        print("Converting articles to csv and cross joining on stock data")
+        convert_json_to_csv('articles2.json', 'articles2.csv', 'dataset2.csv')
+        convert_json_to_csv('articles3.json', 'articles3.csv', 'dataset3.csv')
+        convert_json_to_csv('articles4.json', 'articles4.csv', 'dataset4.csv')
+
+        dataset_files = ['dataset2.csv', 'dataset3.csv', 'dataset4.csv']
+        df_list = []
+        for filename in sorted(dataset_files):
+            df_list.append(pd.read_csv(filename))
+        full_df = pd.concat(df_list)
+        full_df.to_csv('combined_dataset.csv')
 
         # Loading stock data from a json file to MongoDB
         #print("Loading " + STOCK_DATA + " file in the " + STOCK_COLLECTION + " present inside the database " + MONGODB_DATABASE)
