@@ -40,12 +40,12 @@ def convert_json_to_csv(articles_json, articles_csv, dataset_csv):
         item_dict.pop('_id')
         item_dict.pop('url')
         item_dict.pop('headline_text')
-        item_dict.pop('article_text')
+        #item_dict.pop('article_text')
         for item2 in item_list:
             item2.pop('_id')
             item2.pop('url')
             item2.pop('headline_text')
-            item2.pop('article_text')
+            #item2.pop('article_text')
             for key, values in item2.items():
                 for value in values:
                    item_dict[key].append(value)
@@ -137,7 +137,7 @@ if __name__ == '__main__':
 
         # Converting articles to csv and cross joining on stock data
         print("Converting articles to csv and cross joining on stock data")
-        convert_json_to_csv('combined_articles.json', 'combined_articles.csv', 'combined_dataset.csv')
+        convert_json_to_csv('combined_articles.json', 'combined_articles_verbose.csv', 'combined_dataset_verbose.csv')
 
         # Loading stock data from a json file to MongoDB
         #print("Loading " + STOCK_DATA + " file in the " + STOCK_COLLECTION + " present inside the database " + MONGODB_DATABASE)
