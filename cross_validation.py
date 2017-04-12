@@ -8,11 +8,11 @@ from sklearn.naive_bayes import GaussianNB, BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
 
 
-df = pd.read_csv("c:/Users/kyungyong/Documents/Python Scripts/SML Project/final_DJIA.csv")
-cols_to_keep = ['Class','sentiment_polarity', 'sentiment_subjectivity', 'Positive', 'Negative', 'Neutral']
+df = pd.read_csv("c:/Users/kyungyong/Documents/Python Scripts/SML Project/news_articles/final_DJIA.csv")
+cols_to_keep = ['Class', 'Tension', 'Depression', 'Anger', 'Fatigue', 'Confusion', 'Vigour']
 data = df[cols_to_keep]
 
-train_cols = data.columns[1:6]
+train_cols = data.columns[1:7]
 print(train_cols)
 
 
