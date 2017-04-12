@@ -16,11 +16,11 @@ def predict(x):
         else:
             return 0
 
-df = pd.read_csv("c:/Users/kyungyong/Documents/Python Scripts/SML Project/final.csv")
+df = pd.read_csv("c:/Users/kyungyong/Documents/Python Scripts/SML Project/A/final.csv")
 df2 = pd.read_csv("c:/Users/kyungyong/Documents/Python Scripts/SML Project/DJIA.csv")
 df2.rename(columns={'DATE': 'Date'}, inplace=True)
 
-cols_to_keep = ['Class','Date', 'sentiment_polarity', 'sentiment_subjectivity', 'Positive', 'Negative', 'Neutral']
+cols_to_keep = ['Class','Date', 'Tension', 'Depression', 'Anger', 'Fatigue', 'Confusion', 'Vigour']
 data = df[cols_to_keep]
 data.drop_duplicates(subset=None, inplace=True)
 
